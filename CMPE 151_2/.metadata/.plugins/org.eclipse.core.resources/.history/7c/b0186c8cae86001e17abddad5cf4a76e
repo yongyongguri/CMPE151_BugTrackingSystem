@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchBugPageController">
+   <children>
+      <Button layoutX="530.0" layoutY="262.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Cancel" />
+      <TableView fx:id="result_bug_tableView" layoutX="15.0" layoutY="57.0" prefHeight="123.0" prefWidth="561.0">
+         <columns>
+            <TableColumn fx:id="BugName_tableColumn1" minWidth="9.6666259765625" prefWidth="141.0" text="Bug's Name" />
+            <TableColumn fx:id="BugDescription_TableColumn1" minWidth="9.6666259765625" prefWidth="205.5" text="Bug's Description" />
+            <TableColumn fx:id="ProjectDescription_TableColumn1" prefWidth="208.5" text="Project's Name" />
+         </columns>
+      </TableView>
+      <Text layoutX="18.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for a bug :" wrappingWidth="178.66666412353516">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="search_bug_input_column" layoutX="157.0" layoutY="26.0" prefHeight="26.0" prefWidth="417.0" />
+      <Button layoutX="466.0" layoutY="262.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Delete" />
+      <Button layoutX="402.0" layoutY="262.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Update" />
+      <TextField fx:id="edit_ProjectName" layoutX="63.0" layoutY="192.0" prefHeight="26.0" prefWidth="161.0" />
+      <TextField fx:id="edit_BugName" layoutX="242.0" layoutY="192.0" prefHeight="26.0" prefWidth="161.0" />
+      <TextField fx:id="edit_BugDescription" layoutX="413.0" layoutY="192.0" prefHeight="26.0" prefWidth="161.0" />
+      <TextField fx:id="edit_bug_ID" layoutX="18.0" layoutY="192.0" prefHeight="26.0" prefWidth="30.0" />
+     
+   </children>
+</AnchorPane>

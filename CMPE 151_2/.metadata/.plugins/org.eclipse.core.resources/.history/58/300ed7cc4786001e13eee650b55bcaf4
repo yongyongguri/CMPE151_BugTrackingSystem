@@ -1,0 +1,201 @@
+package controller;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
+import application.DataBaseConnection;
+import application.DataModel;
+import application.NewProjectData;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+
+public class SearchProjectPageController implements Initializable {
+
+	@FXML private TableView<NewProjectData> result_project_tableView;
+	@FXML private TableColumn<NewProjectData, String> projectName_TableColumn;
+	@FXML private TableColumn<NewProjectData, String> date_TableColumn;
+	@FXML private TableColumn<NewProjectData, String> ProjectDescription_TableColumn;
+	@FXML private TableColumn<NewProjectData, String> risk_TableColumn;
+	@FXML private TableColumn<NewProjectData, String> ProjectID_TableColumn;
+	@FXML private TextField search_project_input_column;	
+    @FXML private TextField edit_project_ID;
+    @FXML private TextField edit_projectName;
+    @FXML private DatePicker edit_Date;
+    @FXML private TextField edit_projectDescription;
+    @FXML private TextField edit_projectLevel;
+    @FXML private TextField edit_BugName;
+    @FXML private TextField edit_BugDescription;
+    @FXML private Label isUpdatedOrDeleted;
+
+    public DataModel dataModel = new DataModel();
+
+	Connection conn = null;
+	PreparedStatement pst_Edit = null;
+	PreparedStatement pst_Delete = null;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		isUpdatedOrDeleted.setText("");
+		UpdateTable_Project();
+		search_Project();
+	}
+
+	ObservableList<NewProjectData> listP_search;
+
+	/**
+	 * Display the existing data of Project
+	 */
+	public void UpdateTable_Project() {
+		projectName_TableColumn.setCellValueFactory(new PropertyValueFactory<NewProjectData, String>("newProjectName"));
+		date_TableColumn.setCellValueFactory(new PropertyValueFactory<NewProjectData, String>("projectDate"));
+		ProjectDescription_TableColumn
+				.setCellValueFactory(new PropertyValueFactory<NewProjectData, String>("projectDescription"));
+		risk_TableColumn.setCellValueFactory(new PropertyValueFactory<NewProjectData, String>("projectLevel"));
+		ProjectID_TableColumn.setCellValueFactory(new PropertyValueFactory<NewProjectData, String>("projectID"));
+
+		listP_search = DataBaseConnection.getDataProject();
+		result_project_tableView.setItems(listP_search);
+	}
+
+	/**
+	 * Filtering the name of project Display all existing data while there is no
+	 * input from user If there is a match with project's name, returns true when
+	 * it's matched Or returns false when there is no match
+	 */
+	public void search_Project() {
+
+		FilteredList<NewProjectData> filteredProjectData = new FilteredList<>(listP_search, b -> true);
+
+		search_project_input_column.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredProjectData.setPredicate(projectSearchModel -> {
+
+				if (newValue.isEmpty() || newValue == null) {
+					return true;
+				}
+
+				String nameSearch = newValue.toLowerCase();
+
+				if (projectSearchModel.getNewProjectName().toLowerCase().indexOf(nameSearch) > -1) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+		});
+
+		// Create an instance of a SortedList and initialize with data of NewProjectData
+		// objects
+		SortedList<NewProjectData> sortedProjectName = new SortedList<>(filteredProjectData);
+
+		// Sorting out the tableView by project's name
+		sortedProjectName.comparatorProperty().bind(result_project_tableView.comparatorProperty());
+
+		result_project_tableView.setItems(sortedProjectName);
+	}
+
+	/**
+	 * To link to a MouseEvent that indicates the user has interacted with the
+	 * element triggering this event It captures the selected index from the table
+	 * view that corresponding with the data from the selected row. If no row is
+	 * selected (index <= -1), the method returns without making any updates.
+	 * 
+	 * @param event The MouseEvent showing the user interaction triggering this
+	 *              event.
+	 */
+	int index = -1;
+
+	@FXML
+	void valueSelected(MouseEvent event) throws ParseException {
+		index = result_project_tableView.getSelectionModel().getSelectedIndex();
+
+		if (index <= -1) {
+			return;
+		}
+		edit_project_ID.setText(ProjectID_TableColumn.getCellData(index).toString());
+		edit_projectName.setText(projectName_TableColumn.getCellData(index).toString());
+		edit_projectDescription.setText(ProjectDescription_TableColumn.getCellData(index).toString());
+		edit_projectLevel.setText(risk_TableColumn.getCellData(index).toString());
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String date = date_TableColumn.getCellData(index);
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		edit_Date.setValue(localDate);
+
+	}
+
+	/**
+	 * To attempts to update the data of a project in the database based on the
+	 * values entered from the user. It retrieves the updated values from the text
+	 * fields And constructs an SQL update query with database, then a message
+	 * "successfully" is displayed Meanwhile, the project table is updated.
+	 * Otherwise, an error message is displayed.
+	 */
+	public void Edit_Button() {
+		try {
+			conn = DataBaseConnection.Connector();
+			String update1 = edit_project_ID.getText();
+			String update2 = edit_projectName.getText();			
+			String update3 = edit_Date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			String update4 = edit_projectDescription.getText();
+			String update5 = edit_projectLevel.getText();
+
+			String sql = "UPDATE Project_table SET ProjectName='" + update2 + "', StartDate='" + update3
+					+ "', Prjt_Description='" + update4 + "', Prjt_Level='" + update5 + "' WHERE Project_ID='" + update1
+					+ "' ";
+			
+			pst_Edit = conn.prepareStatement(sql);
+			pst_Edit.execute();
+			isUpdatedOrDeleted.setText("Successfully Updated!");
+			//JOptionPane.showMessageDialog(null, "The update was successful!");
+			UpdateTable_Project();
+			search_Project();
+			edit_project_ID.setText(null);
+			edit_projectName.setText(null);
+			edit_projectDescription.setText(null);
+			edit_projectLevel.setText(null);
+			edit_Date.setValue(null);
+		} catch (Exception e) {
+			isUpdatedOrDeleted.setText(e.getMessage());
+			//JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	public void Delete_Button() {
+		try {
+			conn = DataBaseConnection.Connector();
+			String update1 = edit_project_ID.getText();
+			System.out.println(update1);
+			String sql = "DELETE FROM Project_table WHERE Project_ID='" + update1 + "' ";
+
+			pst_Delete = conn.prepareStatement(sql);
+			pst_Delete.execute();
+			isUpdatedOrDeleted.setText("Data Deleted!");
+			//JOptionPane.showMessageDialog(null, "Data Deleted!");
+			UpdateTable_Project();
+			search_Project();
+			edit_project_ID.setText(null);
+			edit_projectName.setText(null);
+			edit_projectDescription.setText(null);
+			edit_projectLevel.setText(null);
+			edit_Date.setValue(null);
+		} catch (Exception e) {
+			isUpdatedOrDeleted.setText(e.getMessage());
+			//JOptionPane.showMessageDialog(null, e);
+		}
+	}
+}

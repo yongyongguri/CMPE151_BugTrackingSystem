@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="mainBox" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+   <children>
+      <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #B2DFFE;">
+         <children>
+            <Text layoutX="153.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bug Tracking System">
+               <font>
+                  <Font name="System Bold Italic" size="30.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: lightgray;">
+         <children>
+            <Button layoutX="19.0" layoutY="13.0" mnemonicParsing="false" onAction="#showNewProjectPageOP" prefHeight="25.0" prefWidth="106.0" text="Add New Project" />
+            <Button layoutX="138.0" layoutY="13.0" mnemonicParsing="false" onAction="#showNewBugPageOp" prefHeight="25.0" prefWidth="106.0" text="Add New Bug" />
+            <Button layoutX="256.0" layoutY="13.0" mnemonicParsing="false" onAction="#showSearchProjectPageOp" prefHeight="25.0" prefWidth="106.0" text="Search Project" />
+            <Button layoutX="495.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Reports" />
+            <Button layoutX="375.0" layoutY="13.0" mnemonicParsing="false" onAction="#showSearchBugPageOp" prefHeight="25.0" prefWidth="106.0" text="Search Bug" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="300.0" prefWidth="600.0">
+         <children>
+            <Text fill="#0000007d" layoutX="77.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to" textAlignment="CENTER" wrappingWidth="445.1240234375">
+               <font>
+                  <Font name="System Bold Italic" size="27.0" />
+               </font>
+            </Text>
+            <Text fill="#0000007d" layoutX="77.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bug Tracking System" textAlignment="CENTER" wrappingWidth="445.1240234375">
+               <font>
+                  <Font name="System Bold Italic" size="44.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

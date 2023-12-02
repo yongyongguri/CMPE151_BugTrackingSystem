@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchProjectPageController">
+   <children>
+      <Text layoutX="24.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search for a project : " wrappingWidth="178.66666412353516">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font>
+      </Text>
+      <Button fx:id="cancel_Button" layoutX="522.0" layoutY="267.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Cancel" />
+      <TableView fx:id="result_project_tableView" layoutX="19.0" layoutY="48.0" onMouseClicked="#valueSelected" prefHeight="123.0" prefWidth="561.0">
+        <columns>
+          <TableColumn fx:id="projectName_TableColumn" prefWidth="140.0" text="Project's Name" />
+          <TableColumn fx:id="date_TableColumn" minWidth="0.0" prefWidth="110.5" text="Date" />
+            <TableColumn fx:id="ProjectDescription_TableColumn" prefWidth="183.5" text="Project's Description" />
+            <TableColumn fx:id="risk_TableColumn" minWidth="9.6666259765625" prefWidth="122.5" text="Level" />
+            <TableColumn fx:id="ProjectID_TableColumn" minWidth="0.0" prefWidth="2.5" text="ProjectID" />
+        </columns>
+      </TableView>
+      <TextField fx:id="search_project_input_column" layoutX="183.0" layoutY="15.0" prefHeight="26.0" prefWidth="396.0" />
+      <Button fx:id="cancel_Button1" layoutX="91.0" layoutY="267.0" mnemonicParsing="false" onAction="#Delete_Button" prefHeight="25.0" prefWidth="58.0" text="Delete" />
+      <Button layoutX="23.0" layoutY="267.0" mnemonicParsing="false" onAction="#Edit_Button" prefHeight="25.0" prefWidth="58.0" text="Update" />
+      <TextField fx:id="edit_projectName" layoutX="125.0" layoutY="199.0" prefHeight="26.0" prefWidth="120.0" />
+      <TextField fx:id="edit_projectDescription" layoutX="439.0" layoutY="198.0" prefHeight="26.0" prefWidth="140.0" />
+      <TextField fx:id="edit_projectLevel" layoutX="439.0" layoutY="225.0" prefHeight="26.0" prefWidth="140.0" />
+      <TextField fx:id="edit_project_ID" editable="false" layoutX="250.0" layoutY="199.0" prefHeight="26.0" prefWidth="36.0" />
+      <Text layoutX="25.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project's Name:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="31.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Starting Date:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="305.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project's Description:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="371.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Risk Level: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="#2852eb" layoutX="21.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the project for editing, and click the &quot;Update&quot; button to save any changes." wrappingWidth="494.2509765625">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font>
+      </Text>
+      <Separator layoutX="1.0" layoutY="259.0" prefHeight="7.0" prefWidth="600.0" />
+      <DatePicker fx:id="edit_Date" layoutX="125.0" layoutY="231.0" prefHeight="27.0" prefWidth="163.0" />
+      <Label fx:id="isUpdatedOrDeleted" layoutX="170.0" layoutY="272.0" prefHeight="17.0" prefWidth="269.0" text="Status" />
+     
+   </children>
+</AnchorPane>
